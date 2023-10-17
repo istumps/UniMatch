@@ -10,7 +10,7 @@
                      <div>
                             <a href = "{% url 'item:detail' item.id %}">
                                    <div>
-                                          <img src="{{item.image.url}}" class = "rounded-t-xl">
+                                           <img src="{{ item.image.url }}" class="w-70 h-60 rounded-t-xl">
                                    </div>
                                    <div class ="p-6 bd-white rounded-b-xl">
                                           <h2 class = "text-2xl">{{item.name }}</h2>

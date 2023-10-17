@@ -11,12 +11,23 @@ def items(request):
     #browse
     query = request.GET.get("query",'')
     category_id = request.GET.get("category", 0 )
+    min_price = request.GET.get("min_price")
+    max_price = request.GET.get("max_price")
     items = Item.objects.filter(is_sold = False )
+
+    #CATEOGORIES
     categories = Category.objects.all()
     if category_id:
         items = items.filter(category_id = category_id)
     if query:
         items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
+   #MIN MAX
+    if min_price and max_price:
+        items = items.filter(price__gte=min_price, price__lte=max_price)
+    elif min_price:
+        items = items.filter(price__gte=min_price)
+    elif max_price:
+        items = items.filter(price__lte=max_price)
 
     return render(request, "item/items.html", {
         "items" : items,

@@ -36,3 +36,23 @@ class SignupForm(UserCreationForm):
          "placeholder": "Confirm password",
         "class" :"w-full py-4 px-6 rounded-xl"
     }))
+
+class AccountSettingsForm(forms.Form):
+    new_username = forms.CharField(max_length=150, required=False, widget=forms.TextInput(attrs={'placeholder': "Current Username"}))
+    new_email = forms.EmailField(required=False, widget=forms.TextInput())
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Enter new password'}), required=False)
+    confirm_new_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}), required=False)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_new_password = cleaned_data.get('confirm_new_password')
+
+        if new_password and confirm_new_password:
+            if new_password != confirm_new_password:
+                raise forms.ValidationError("Passwords do not match")
+
+        return cleaned_data
+
+
+
