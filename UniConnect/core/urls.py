@@ -3,6 +3,10 @@ from django.urls import path
 
 from . import views
 from .forms import LoginForm
+
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = "core"
 
 urlpatterns = [
@@ -15,4 +19,4 @@ urlpatterns = [
     path('account/', views.account, name='account'),
     path('account/settings/', views.account_settings, name='account_settings'),
     path('logout/', views.logout_view, name='logout'),
-]
+] +  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
